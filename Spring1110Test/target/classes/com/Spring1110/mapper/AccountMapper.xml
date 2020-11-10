@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.Spring1110.mapper.AccountMapper">
+	<select id="getList" resultType="com.Spring1110.domain.AccountDTO">
+		select * from account
+	</select>
+	<select id="getSerial" resultType="com.Spring1110.domain.AccountDTO">
+		select * from account where free_serial = #{free_serial}
+	</select>
+	<insert id="insert">
+		insert into account(free_record,free_name, free_password, free_serial, deposit, withdraw, balance, avail)
+			values (acc_sequence.nextval,#{free_name},#{free_password}, #{free_serial},#{deposit},#{withdraw},null,null)
+	</insert>
+	<select id="getLat" resultType="com.Spring1110.domain.AccountDTO">
+		<![CDATA[
+			select * from (
+			select * from account where free_serial = #{free_serial} order by free_record desc) where rownum <=1
+		]]>
+	</select>
+	<select id="getBalance" resultType="_float">
+		select sum((deposit) - (withdraw)) as balance from account where free_serial = #{free_serial}
+	</select>
+</mapper>

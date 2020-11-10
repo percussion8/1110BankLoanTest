@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.Spring1110.mapper.LoanMapper">
+	<select id="loanSerial" resultType="com.Spring1110.domain.LoanDTO">
+		select * from lawn where serial = #{serial}
+	</select>
+	<insert id="loaninsert">
+		insert into lawn values(lawn_sequence.nextval, #{lawn_name}, #{lawn_amount}, #{lawn_withdraw}, #{lawn_balance}, #{serial})
+	</insert>
+	<select id="loanLat" resultType="com.Spring1110.domain.LoanDTO">
+		<![CDATA[
+			select * from (
+			select * from lawn where serial = #{serial} order by record desc) where rownum <=1
+		]]>
+	</select>
+	
+	
+</mapper> 
